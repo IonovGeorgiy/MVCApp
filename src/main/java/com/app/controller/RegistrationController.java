@@ -27,13 +27,13 @@ public class RegistrationController {
 
         if (userFromDb != null) {
             model.put("message", "User exists!");
-            return "registration";
+            return "registration"; //если пользователь уже существует выводим сообщение на страницу registration
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
+        user.setActive(true); //действия если пользователя нужно регистрировать, активность ставим true
+        user.setRoles(Collections.singleton(Role.USER)); //создаем set с одним значением и передаем в setRoles
         userRepo.save(user);
 
-        return "redirect:/login";
+        return "redirect:/login"; //при успешной регистрации переходим на страницу login
     }
 }

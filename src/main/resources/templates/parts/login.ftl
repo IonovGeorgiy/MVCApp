@@ -1,4 +1,4 @@
-<#macro login path>
+<#macro login path> <#--новый макрос login кторый имеет переменную path-->
 <form action="${path}" method="post">
     <div><label> User Name : <input type="text" name="username"/> </label></div>
     <div><label> Password: <input type="password" name="password"/> </label></div>

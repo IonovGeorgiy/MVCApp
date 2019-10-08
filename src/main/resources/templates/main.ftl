@@ -14,18 +14,18 @@
     </form>
 </div>
 <div>Список сообщений</div>
-<form method="get" action="/main">
-    <input type="text" name="filter" value="${filter!""}">
+<form method="get" action="/main"> <#--_csrf токен нужен только для post запросов, поэтому его тут нет-->
+    <input type="text" name="filter" value="${filter!""}"> <#--value="${filter!""}" нужно для того что бы отображились в форме введенные фильтры-->
     <button type="submit">Найти</button>
 </form>
-<#list messages as message>
+<#list messages as message> <#--обход списка. messages - коллекция которую обходим, message - экземпляр-->
 <div>
     <b>${message.id}</b>
     <span>${message.text}</span>
     <i>${message.tag}</i>
     <strong>${message.authorName}</strong>
 </div>
-<#else>
+<#else> <#--если коллекция пустая-->
 No message
 </#list>
 </@c.page>

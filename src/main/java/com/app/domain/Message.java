@@ -11,11 +11,11 @@ public class Message {
     private String text;
     private String tag;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.EAGER) //EAGER потому, что каждый раз когда мы получаем сообщение мы хотим получать и информацию об авторе вместе с сообщением
+    @JoinColumn(name = "user_id") //теперь в об поле будет называться user_id, а не author, как было бы по умолчанию
     private User author;
 
-    public Message() {
+    public Message() { //нужно обязательно создавать пустой конструктор если это Entity т.к. если его не создать, то Spring не сможет обращаться к этому классу
     }
 
     public Message(String text, String tag, User user) {
@@ -25,8 +25,12 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return author != null ? author.getUsername() : "<none>";
+        return author != null ? author.getUsername() : "<none>"; //проверяем есть автор у сообщения или его нет, если нет то пишем <none>
     }
+
+    /*
+    геттеры и сеттеры нужны для приватных полей
+    */
 
     public User getAuthor() {
         return author;

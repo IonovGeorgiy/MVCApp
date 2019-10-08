@@ -18,10 +18,10 @@ public class User implements UserDetails {
     private String password;
     private boolean active;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER) /*ElementCollection позволяет избавиться от формирования дополнительной таблицы для хранения enum. fetch параметр определяет режим подгрузки данных.*/
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id")) /*CollectionTable аннотация показывает что поле будет храниться в отдельной таблице для которой мы не прописывали мэппинг. Мы создаем таблицу user_role и связываемся с ней через user_id.*/
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Set<Role> roles; /*enum из Role*/
 
     public Long getId() {
         return id;

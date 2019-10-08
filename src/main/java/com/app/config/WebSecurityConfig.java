@@ -9,6 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
+/*
+этот класс при старте приложения конфигурирует WebSecurity
+*/
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -18,20 +22,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                    .antMatchers("/", "/registration").permitAll()
-                    .anyRequest().authenticated()
+                .authorizeRequests() //  сюда передается обьект в котором мы включаем авторизацию
+                    .antMatchers("/", "/registration").permitAll() //указываем что на главную страницу и страницу регистрации мы разрешаем полный доступ
+                    .anyRequest().authenticated() //для всех остальных запросов мы требуем авторизацию
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
+                    .formLogin() //включаем логин
+                    .loginPage("/login") // указываем меппинг для формы логин и разрешаем пользоваться всем
                     .permitAll()
                 .and()
-                    .logout()
-                    .permitAll();
+                    .logout() //включаем logout
+                    .permitAll(); //разрешаем пользоваться всем
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception { //метод для того, чтобы брать пользователей из бд
         auth.userDetailsService(userSevice)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }

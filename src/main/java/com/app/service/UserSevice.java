@@ -7,13 +7,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service //тоже рассматривается как компонет
 public class UserSevice implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        return userRepo.findByUsername(username); //просто возвращаем пользователя
     }
 }
