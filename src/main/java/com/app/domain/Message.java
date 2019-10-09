@@ -15,6 +15,8 @@ public class Message {
     @JoinColumn(name = "user_id") //теперь в об поле будет называться user_id, а не author, как было бы по умолчанию
     private User author;
 
+    private String filename; /*тут будем хранить названия картинки*/
+
     public Message() { //нужно обязательно создавать пустой конструктор если это Entity т.к. если его не создать, то Spring не сможет обращаться к этому классу
     }
 
@@ -62,5 +64,13 @@ public class Message {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }
