@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests() //  сюда передается обьект в котором мы включаем авторизацию
-                    .antMatchers("/", "/registration", "/static/**").permitAll() //указываем что на главную страницу и страницу регистрации мы разрешаем полный доступ без авторизации
+                    .antMatchers("/", "/registration", "/static/**", "/activate/*").permitAll() //указываем что на главную страницу и страницу регистрации мы разрешаем полный доступ без авторизации. * означает что url может содержать еще один сегмент
                     .anyRequest().authenticated() //для всех остальных запросов мы требуем авторизацию
                 .and()
                     .formLogin() //включаем логин
