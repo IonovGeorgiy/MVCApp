@@ -1,6 +1,6 @@
 package com.app.config;
 
-import com.app.service.UserSevice;
+import com.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +19,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true) //эта аннотация нужна для того чтобы заработало @PreAuthorize("hasAuthority('ADMIN')") в userController
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserSevice userSevice;
+    private UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception { //метод для того, чтобы брать пользователей из бд
-        auth.userDetailsService(userSevice)
+        auth.userDetailsService(userService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 }

@@ -1,7 +1,7 @@
 package com.app.controller;
 
 import com.app.domain.User;
-import com.app.service.UserSevice;
+import com.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import java.util.Map;
 @Controller
 public class RegistrationController {
     @Autowired
-    private UserSevice userSevice;
+    private UserService userService;
 
     @GetMapping("/registration")
     public String registration() {
@@ -23,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Map<String, Object> model) {
-        if (!userSevice.addUser(user)) { //если не смогли добавить пользователя, значит он существует
+        if (!userService.addUser(user)) { //если не смогли добавить пользователя, значит он существует
             model.put("message", "User exists!");
             return "registration"; //если пользователь уже существует выводим сообщение на страницу registration
         }
@@ -33,7 +33,7 @@ public class RegistrationController {
 
     @GetMapping("/activate/{code}")
     public String activate(Model model, @PathVariable String code) {
-        boolean isActivated = userSevice.activateUser(code);
+        boolean isActivated = userService.activateUser(code);
 
         if (isActivated) {
             model.addAttribute("message", "User successfully activated");
