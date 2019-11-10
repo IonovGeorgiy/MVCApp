@@ -8,15 +8,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.naming.Binding;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -53,30 +59,38 @@ public class MainController {
     @PostMapping("/main")
     public String add(
             @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Map<String, Object> model, /*@RequestParam эта аннотация выдергивает значения либо из url если мы используем get либо из формы если мы используем post*/
-            @RequestParam("file") MultipartFile file /*нужно для сохранеия картинок*/
+            @Valid Message message,
+            BindingResult bindingResult, /*BindingResult это список аргументов и сообщений ошибок валидации, этот аргумент всегда идет перед Model иначе все ошибки валидации будет лететь во вью без обработки*/
+            Model model,
+            @RequestParam("file") MultipartFile file /*нужно для сохранеия картинок, @RequestParam эта аннотация выдергивает значения либо из url если мы используем get либо из формы если мы используем post*/
     ) throws IOException {
-        Message message = new Message(text, tag, user);
+        message.setAuthor(user);
 
-        if (file != null && !file.getOriginalFilename().isEmpty()){ /*будем сохранять файл, только если у него задано имя !file.getOriginalFilename().isEmpty()*/
-            File uploadDit = new File(uploadPath);
+        if (bindingResult.hasErrors()){ //сохранение в бд произойдет только в том случае если валидация прошла без ошибок
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errorsMap);
+            model.addAttribute("message", message);
+        } else {
+            if (file != null && !file.getOriginalFilename().isEmpty()) { /*будем сохранять файл, только если у него задано имя !file.getOriginalFilename().isEmpty()*/
+                File uploadDit = new File(uploadPath);
 
-            if (!uploadDit.exists()){ /*если uploadDit не сужествует*/
-                uploadDit.mkdir(); /*то мы создаем его. Обезописили себя от ошибок связанных с тем что дирректории не существует*/
+                if (!uploadDit.exists()) { /*если uploadDit не сужествует*/
+                    uploadDit.mkdir(); /*то мы создаем его. Обезописили себя от ошибок связанных с тем что дирректории не существует*/
+                }
+
+                String uuidFile = UUID.randomUUID().toString(); /*Обезопасим себя от коллизий и созданим уникальное имя файла*/
+                String resultFilename = uuidFile + "." + file.getOriginalFilename(); /*конечное имя файла*/
+
+                file.transferTo(new File(uploadPath + "/" + resultFilename)); /*загружаем файл*/
+
+                message.setFilename(resultFilename);
             }
 
-            String uuidFile = UUID.randomUUID().toString(); /*Обезопасим себя от коллизий и созданим уникальное имя файла*/
-            String resultFilename = uuidFile + "." + file.getOriginalFilename(); /*конечное имя файла*/
-
-            file.transferTo(new File(uploadPath + "/" +resultFilename)); /*загружаем файл*/
-
-            message.setFilename(resultFilename);
+            model.addAttribute("message", null); //удаляем из модели сообщение, иначе после добавления мы получим открытую форму с сообщением
+            messageRepo.save(message); /*1 сохраняем*/
         }
-
-        messageRepo.save(message); /*1 сохраняем*/
         Iterable<Message> messages = messageRepo.findAll(); /*2 взяли из репозитория*/
-        model.put("messages", messages); /*3 положили в модель*/
+        model.addAttribute("messages", messages); /*3 положили в модель*/
 
         return "main"; /*4 отдали пользователю*/
     }

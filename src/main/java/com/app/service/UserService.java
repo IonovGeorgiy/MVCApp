@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -21,9 +22,17 @@ public class UserService implements UserDetailsService {
     @Autowired
     private MailSender mailSender;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username); //просто возвращаем пользователя
+        User user = userRepo.findByUsername(username);
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return user;
     }
 
     public boolean addUser(User user) {
@@ -36,6 +45,7 @@ public class UserService implements UserDetailsService {
         user.setActive(true); //действия если пользователя нужно регистрировать, активность ставим true
         user.setRoles(Collections.singleton(Role.USER)); //создаем set с одним значением и передаем в setRoles
         user.setActivationCode(UUID.randomUUID().toString()); //генерация кода активации
+        user.setPassword(passwordEncoder.encode(user.getPassword())); //шифруем пароль с помошью passwordEncoder
 
         userRepo.save(user);
 
@@ -100,7 +110,7 @@ public class UserService implements UserDetailsService {
             }
 
             if (!StringUtils.isEmpty(password)) { // установил ли пароль
-                user.setPassword(password);
+                user.setPassword(passwordEncoder.encode(password));
             }
 
             userRepo.save(user);

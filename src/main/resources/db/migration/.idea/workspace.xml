@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="256c7120-7173-428b-82e0-7d30432cd7fc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/$CACHE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/$PRODUCT_WORKSPACE_FILE$" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/V3__Encode_passwords.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../java/com/app/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../java/com/app/config/WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../java/com/app/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../java/com/app/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../java/com/app/domain/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../java/com/app/domain/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../java/com/app/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../java/com/app/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../java/com/app/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../java/com/app/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../../application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/V1__Init_DB.sql" beforeDir="false" afterPath="$PROJECT_DIR$/V1__Init_DB.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/V2__Add_admin.sql" beforeDir="false" afterPath="$PROJECT_DIR$/V2__Add_admin.sql" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="E:\tasks\MVCApp\src\main\resources\db\migration\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1TQfLW0JswsKcEEaNPwg1jRmqtF" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../../../sweater-beanValidation" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="256c7120-7173-428b-82e0-7d30432cd7fc" name="Default Changelist" comment="" />
+      <created>1573397183679</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1573397183679</updated>
+      <workItem from="1573397185400" duration="651000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
