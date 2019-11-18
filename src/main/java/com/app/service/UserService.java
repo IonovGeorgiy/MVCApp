@@ -99,18 +99,20 @@ public class UserService implements UserDetailsService {
 
     public void updateProfile(User user, String password, String email) {
         String userEmail = user.getEmail();
+        String userPassword = user.getPassword();
 
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) || (userEmail != null && !userEmail.equals(email)); //email.equals(userEmail) - текущие емаил пользователя, если будем сравнивать только через equals то мы поймаем nullPointerExeption
+        boolean isPasswordChanged = (password != null && !password.equals(userPassword)) || (userPassword != null && !userPassword.equals(password));
 
-        if (isEmailChanged) { //если менял емайл
+        if (isEmailChanged || isPasswordChanged) { //если менял емайл
             user.setEmail(email);
-
-            if (!StringUtils.isEmpty(email)) { //если установил новый емайл то генеринуем новый код активации
-                user.setActivationCode(UUID.randomUUID().toString());
-            }
 
             if (!StringUtils.isEmpty(password)) { // установил ли пароль
                 user.setPassword(passwordEncoder.encode(password));
+            }
+
+            if (!StringUtils.isEmpty(email)) { //если установил новый емайл то генеринуем новый код активации
+                user.setActivationCode(UUID.randomUUID().toString());
             }
 
             userRepo.save(user);

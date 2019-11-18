@@ -1,7 +1,9 @@
 package com.app.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,6 +18,11 @@ Spring сам предоставляет логику работы логина,
 public class MvcConfig implements WebMvcConfigurer {
     @Value("${upload.path}") /*этой аннотацией указываем Spring, что мы хотим получить переменную. "${upload.path}" - выдергивает из контекста значения либо конструкции, сейчас он ищет upload.path в application.properties и вставляет его в переменную private String uploadPath;*/
     private String uploadPath;
+
+    @Bean
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
 
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");
