@@ -9,20 +9,16 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -71,20 +67,7 @@ public class MainController {
             model.mergeAttributes(errorsMap);
             model.addAttribute("message", message);
         } else {
-            if (file != null && !file.getOriginalFilename().isEmpty()) { /*будем сохранять файл, только если у него задано имя !file.getOriginalFilename().isEmpty()*/
-                File uploadDit = new File(uploadPath);
-
-                if (!uploadDit.exists()) { /*если uploadDit не сужествует*/
-                    uploadDit.mkdir(); /*то мы создаем его. Обезописили себя от ошибок связанных с тем что дирректории не существует*/
-                }
-
-                String uuidFile = UUID.randomUUID().toString(); /*Обезопасим себя от коллизий и созданим уникальное имя файла*/
-                String resultFilename = uuidFile + "." + file.getOriginalFilename(); /*конечное имя файла*/
-
-                file.transferTo(new File(uploadPath + "/" + resultFilename)); /*загружаем файл*/
-
-                message.setFilename(resultFilename);
-            }
+            saveFile(message, file);
 
             model.addAttribute("message", null); //удаляем из модели сообщение, иначе после добавления мы получим открытую форму с сообщением
             messageRepo.save(message); /*1 сохраняем*/
@@ -93,5 +76,22 @@ public class MainController {
         model.addAttribute("messages", messages); /*3 положили в модель*/
 
         return "main"; /*4 отдали пользователю*/
+    }
+
+    protected void saveFile(@Valid Message message, @RequestParam("file") MultipartFile file) throws IOException { //метод сохранения файла
+        if (file != null && !file.getOriginalFilename().isEmpty()) { /*будем сохранять файл, только если у него задано имя !file.getOriginalFilename().isEmpty()*/
+            File uploadDit = new File(uploadPath);
+
+            if (!uploadDit.exists()) { /*если uploadDit не сужествует*/
+                uploadDit.mkdir(); /*то мы создаем его. Обезописили себя от ошибок связанных с тем что дирректории не существует*/
+            }
+
+            String uuidFile = UUID.randomUUID().toString(); /*Обезопасим себя от коллизий и созданим уникальное имя файла*/
+            String resultFilename = uuidFile + "." + file.getOriginalFilename(); /*конечное имя файла*/
+
+            file.transferTo(new File(uploadPath + "/" + resultFilename)); /*загружаем файл*/
+
+            message.setFilename(resultFilename);
+        }
     }
 }

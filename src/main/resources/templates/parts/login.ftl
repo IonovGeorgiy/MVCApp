@@ -68,12 +68,16 @@
     </form>
 </#macro>
 
-<#--<#if !user??>-->
-
 <#macro logout>
     <form action="/logout" method="post">
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
         <button class="btn btn-primary" type="submit">Sign Out</button>
     </form>
 </#macro>
-<#--</#if>-->
+
+<#macro signIn>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="${_csrf.token}" />
+        <button class="btn btn-primary" type="submit">Sign In</button>
+    </form>
+</#macro>

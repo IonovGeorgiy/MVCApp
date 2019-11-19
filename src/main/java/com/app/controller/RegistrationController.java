@@ -56,10 +56,6 @@ public class RegistrationController {
             model.addAttribute("password2Error", "Password confirmation cannot be empty");
         }
 
-       /* if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)){
-            model.addAttribute("passwordError", "Passwords are different!");
-        }*/
-
         boolean isPasswordDifferent = user.getPassword() != null && !user.getPassword().equals(passwordConfirm);
         if(isPasswordDifferent){
             model.addAttribute("passwordError", "Passwords are different!");
@@ -82,9 +78,6 @@ public class RegistrationController {
             model.addAttribute("usernameError", "User exists!");
             return "registration"; //если пользователь уже существует выводим сообщение на страницу registration
         }
-
-
-
         return "redirect:/login"; //при успешной регистрации переходим на страницу login
     }
 
@@ -99,7 +92,6 @@ public class RegistrationController {
             model.addAttribute("messageType", "danger"); //не успешная активация
             model.addAttribute("message", "Activation code is not found!");
         }
-
         return "login";
     }
 }

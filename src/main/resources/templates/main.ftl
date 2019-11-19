@@ -48,22 +48,8 @@
         </div>
     </div>
 
-    <div class="card-columns"> <#--оформление карточками в несколько колонок-->
-        <#list messages as message> <#--обход списка. messages - коллекция которую обходим, message - экземпляр-->
-            <div class="card my-3">
-                <#if message.filename??> <#--?? - приведение к булевому типу-->
-                    <img src="/img/${message.filename}" class="card-img-top"> <#--class="card-img-top" красиво выводит картинку-->
-                </#if>
-                <div class="m-2">
-                    <span>${message.text}</span>
-                    <i>${message.tag}</i>
-                </div>
-                <div class="card-footer text-muted">
-                    ${message.authorName}
-                </div>
-            </div>
-        <#else> <#--если коллекция пустая-->
-            No message
-        </#list>
-    </div>
+    <#include "parts/messageEdit.ftl" />
+
+    <#include "parts/messageList.ftl" />
+
 </@c.page>

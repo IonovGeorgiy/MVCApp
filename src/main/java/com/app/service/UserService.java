@@ -104,7 +104,7 @@ public class UserService implements UserDetailsService {
         boolean isEmailChanged = (email != null && !email.equals(userEmail)) || (userEmail != null && !userEmail.equals(email)); //email.equals(userEmail) - текущие емаил пользователя, если будем сравнивать только через equals то мы поймаем nullPointerExeption
         boolean isPasswordChanged = (password != null && !password.equals(userPassword)) || (userPassword != null && !userPassword.equals(password));
 
-        if (isEmailChanged || isPasswordChanged) { //если менял емайл
+        if (isEmailChanged || isPasswordChanged) { //если менял емайл или пароль
             user.setEmail(email);
 
             if (!StringUtils.isEmpty(password)) { // установил ли пароль
