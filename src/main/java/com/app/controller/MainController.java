@@ -5,6 +5,9 @@ import com.app.domain.User;
 import com.app.repos.MessageRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.awt.print.Pageable;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -36,17 +40,21 @@ public class MainController {
     модель это место куда мы будем складывать данные которые хотим вернуть пользователю
     */
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) { /*filter записываем required = false потому, что мы его будем передавать не всегда*/
-
-        Iterable<Message> messages = messageRepo.findAll(); /*тут пишем Iterable т.к. и 1 и 2 наследуется от Iterable (как общай знаменатель)*/
+    public String main(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model,
+            @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) org.springframework.data.domain.Pageable pageable
+    ) { /*filter записываем required = false потому, что мы его будем передавать не всегда *///*задаем поле по которому будем сортировать сообщения и порядок сортировки(по убыванию, с начала показываем сообщения, которые были созданы последними), если эти параметры не задать то сообщения принимаемые с бд, будут приходить в рандомном порядке*//*
+        Page<Message> page;
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter); /*2 findByTag возвращает List*/
+            page = messageRepo.findByTag(filter, pageable); /*2 findByTag возвращает List*/
         } else {
-            messages = messageRepo.findAll(); /*1 findAll возвращает Iterable*/
+            page = messageRepo.findAll(pageable); /*1 findAll возвращает Iterable*/
         }
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";

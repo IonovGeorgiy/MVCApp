@@ -1,10 +1,13 @@
 <#include "security.ftl">
+<#import "pager.ftl" as p>
 
-<div class="card-columns"> <#--оформление карточками в несколько колонок-->
-    <#list messages as message> <#--обход списка. messages - коллекция которую обходим, message - экземпляр-->
-        <div class="card my-3">
+<@p.pager url page />
+
+<div class="card-columns" id="message-list"> <#--оформление карточками в несколько колонок-->
+    <#list page.content as message> <#--обход списка. messages - коллекция которую обходим, message - экземпляр-->
+        <div class="card my-3" data-id="${message.id}">
             <#if message.filename??> <#--?? - приведение к булевому типу-->
-                <img src="/img/${message.filename}" class="card-img-top"> <#--class="card-img-top" красиво выводит картинку-->
+                <img src="/img/${message.filename}" class="card-img-top" /> <#--class="card-img-top" красиво выводит картинку-->
             </#if>
             <div class="m-2">
                 <span>${message.text}</span><br/>
@@ -23,3 +26,5 @@
         No message
     </#list>
 </div>
+
+<@p.pager url page />
